@@ -1,5 +1,6 @@
-import {cardsEasy} from './cards';
+import {cardsEasy, cardsMed, cardsHard, shuffle} from './cards';
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom'
 import {Card} from './Card';
 
 const states = {
@@ -13,13 +14,15 @@ export class Game extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      points: 0,
       cards: [],
       cardsMatched: [],
       cardsSelected: []
     }
   }
   componentWillMount = () => {
-    let cards = cardsEasy.map((card, i) => {
+    let deck = shuffle(cardsHard)
+    let cards = deck.map((card, i) => {
       return {
           id:i,
           key:i,
@@ -57,7 +60,6 @@ export class Game extends Component {
       cardsSelected,
       cards
     })
-    console.log(cards);
   }
   removeFromSelected = (id, rank, suit) => {
     let card = this.state.cards.filter((card) => {
@@ -90,8 +92,9 @@ export class Game extends Component {
   }
 
   updateMatchedCards = () => {
-    let rank = this.state.cardsSelected[0].rank
-    let matches = this.state.cards.filter(card => card.rank === rank)
+    let id1 = this.state.cardsSelected[0].id
+    let id2 = this.state.cardsSelected[1].id
+    let matches = this.state.cards.filter(card => card.id === id1 || card.id === id2)
     matches = matches.map((card) => {
       card.status = states.MATCHED
       return card
@@ -101,7 +104,9 @@ export class Game extends Component {
         cards.splice(card.id,1,card)
     })
     let cardsSelected = []
-    this.setState({cards, cardsSelected})
+    let points = this.state.points
+    points += 10
+    this.setState({cards, cardsSelected, points})
   }
 
   updateMismatchedCards = () => {
@@ -115,8 +120,10 @@ export class Game extends Component {
       cards.splice(card.id,1,card)
     })
     cardsSelected = []
+    let points = this.state.points
+    points -= 2
     setTimeout(function(){
-      this.setState({cards, cardsSelected})
+      this.setState({cards, cardsSelected, points})
     }
     .bind(this), 500)
   }
@@ -141,10 +148,13 @@ export class Game extends Component {
 
   render() {
     let cards = this.renderCards()
-    console.log(cards);
     return (
-      <div>
-        <p>Game here</p>
+      <div className="Board">
+        <Link className="Go-home" to="/">The Memory Game</Link>
+        <div className="Heading">
+          <h2>Match cards of the same rank</h2>
+          <h1>{this.state.points}pts</h1>
+        </div>
         {cards}
       </div>
     )

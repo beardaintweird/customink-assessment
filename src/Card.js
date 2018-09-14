@@ -15,12 +15,6 @@ export class Card extends Component {
       status: states.UNSELECTED
     }
   }
-  // componentWillReceiveProps(nextProps){
-  //   console.log(nextProps.status);
-  // }
-  // shouldComponentUpdate = (nextProps, nextState) => {
-  //   console.log(nextProps.status, this.props.status);
-  // }
 
   handleClick = (e) => {
     switch(this.props.status) {
@@ -30,17 +24,12 @@ export class Card extends Component {
       case states.SELECTED:
         this.props.unSelectCard(this.props.id, this.props.rank, this.props.suit)
         break;
-      case states.MISMATCHED:
-
-        break;
-      default:
     }
   }
 
   setImage = () => {
     let img
     let status = this.props.status
-    console.log("picking image", status);
     if (status == states.UNSELECTED) {
       img = this.props.back
     } else if (status == states.SELECTED){
@@ -55,7 +44,6 @@ export class Card extends Component {
 
   render() {
     let img = this.setImage()
-    console.log(this.props.status);
     return (
       <div className="Card" onClick={this.handleClick}>
         <img src={img}/>

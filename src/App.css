@@ -40,7 +40,36 @@ body {
   text-align: center;
 }
 
+.Board {
+  padding: 0 12em;
+  padding-top: 1em;
+  background-color: #FCD4C9;
+}
+.Heading {
+  color: #FC4009;
+  letter-spacing: 1px;
+  /* margin-top:   5em; */
+  margin-bottom: 5em;
+}
+
 .Card {
   display: inline;
-  margin: 0.5em 0.5em;
+  margin: 2em 0.75em;
+}
+.Card img {
+  max-height: 12em;
+  border: 1px solid #FC4009;
+  border-radius: 8px;
+}
+
+.Go-home {
+  position: absolute;
+  left: 30px;
+  text-decoration: none;
+  letter-spacing: 1px;
+  color: #FC4009;
+  transition: 0.1s linear;
+}
+.Go-home:hover {
+  color: black;
 }
